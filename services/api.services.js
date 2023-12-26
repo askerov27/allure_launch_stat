@@ -1,7 +1,7 @@
 import axios from "axios";
 import dedent from "dedent";
 import chalk from "chalk";
-import { printError } from "./get_args.js";
+import { printError } from "../services/log.services.js";
 
 const findLaunchById = (id) => {
   axios

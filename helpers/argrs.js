@@ -1,10 +1,3 @@
-import chalk from "chalk";
-
-const printError = (error) => {
-  console.log(chalk.bgRed("ERROR " + error));
-  return process.exit(1);
-};
-
 const getArgs = () => {
   let argument = process.argv.slice(2);
   if (!argument.length) {
@@ -12,4 +5,4 @@ const getArgs = () => {
   } else return process.argv.slice(2);
 };
 
-export { printError, getArgs };
+export { getArgs };

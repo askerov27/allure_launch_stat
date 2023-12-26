@@ -2,8 +2,8 @@ import {
   findLaunchById,
   getLaunchStat,
   getFailedTests,
-} from "./api_methods.js";
-import { getArgs } from "./get_args.js";
+} from "./services/api.services.js";
+import { getArgs } from "./helpers/argrs.js";
 
 const initCli = async () => {
   const args = getArgs();

@@ -1,3 +1,4 @@
+import { printError } from "../services/log.services.js";
 const getArgs = () => {
   let argument = process.argv.slice(2);
   if (!argument.length) {

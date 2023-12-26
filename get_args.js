@@ -1,25 +1,15 @@
 import chalk from "chalk";
 
+const printError = (error) => {
+  console.log(chalk.bgRed("ERROR " + error));
+  return process.exit(1);
+};
+
 const getArgs = () => {
+  let argument = process.argv.slice(2);
+  if (!argument.length) {
+    printError("введен не правильный id, команда помощь -help");
+  } else return process.argv.slice(2);
+};
 
-    if (process.argv[2] < 2) {
-
-        return;
-    
-    } else if (process.argv[2] === undefined) {
-
-        return;
-
-    } else if (process.argv[2] === null) {
-
-        return;
-
-    } else 
-    
-    console.log(chalk.green("test launch number:"), process.argv[2]);
-    return process.argv[2];
-  };
-
-
-export { getArgs};
-
+export { printError, getArgs };

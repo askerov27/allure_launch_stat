@@ -1,8 +1,30 @@
 import axios from "axios";
+import dedent from "dedent";
 import chalk from "chalk";
-const getArgs = () => {
-  console.log(chalk.green("test launch number:"), process.argv[2]);
-  return process.argv[2];
+import { printError } from "./get_args.js";
+
+const findLaunchById = (id) => {
+  axios
+    .request({
+      headers: {
+        Accept: "application/json",
+        Authorization: "Api-Token ddd461b2-ab60-435d-8f82-26f0ca2ca2ca",
+      },
+      method: "GET",
+      url: `https://rallyup.testops.cloud/api/rs/launch/${id}`,
+    })
+    .then((response) => {
+      console.log(
+        chalk.green("Launch №" + response.data.id) + ": " + response.data.name
+      );
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 400) {
+        printError("введен не правильный id");
+      } else if (error.response && error.response.status === 404) {
+        printError("такой LAUNCH не найден");
+      }
+    });
 };
 
 function getLaunchStat(id) {
@@ -17,28 +39,11 @@ function getLaunchStat(id) {
     })
     .then((response) => {
       console.log(
-        chalk.green(response.data[0].status) + ": " + response.data[0].count
-      );
-      console.log(
-        chalk.green(response.data[1].status) + ": " + response.data[1].count
-      );
-      console.log(
-        chalk.green(response.data[2].status) + ": " + response.data[2].count
-      );
-    });
-
-  axios
-    .request({
-      headers: {
-        Accept: "application/json",
-        Authorization: "Api-Token ddd461b2-ab60-435d-8f82-26f0ca2ca2ca",
-      },
-      method: "GET",
-      url: `https://rallyup.testops.cloud/api/rs/launch/${id}`,
-    })
-    .then((response) => {
-      console.log(
-        chalk.green("Launch №" + response.data.id) + ": " + response.data.name
+        dedent`
+        ${chalk.green(response.data[0].status)}:${response.data[0].count}
+        ${chalk.green(response.data[1].status)}:${response.data[1].count}
+        ${chalk.green(response.data[2].status)}:${response.data[2].count}
+      `
       );
     });
 }
@@ -70,4 +75,4 @@ function getFailedTests(id) {
     });
 }
 
-export { getArgs, getLaunchStat, getFailedTests };
+export { findLaunchById, getLaunchStat, getFailedTests };
